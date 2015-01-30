@@ -5,8 +5,11 @@
 #
 # This program reads a bib record and takes actions
 #
+# When sending XML as an input add the following header: 
+#                 Content-Type: application/xml
+# When sending JSON as an input add the following header: 
+#                 Content-Type: application/json
 ##############################################################
-
 
 use strict;
 use warnings;
@@ -22,6 +25,7 @@ close $apikeyfile;
 
 my $ua = LWP::UserAgent->new;
 $ua->default_header('Authorization' => "apikey $apikey");
+#$ua->default_header('Content-Type' => "application/xml");
 
 ######################################
 # make sure line feeds delimit records
