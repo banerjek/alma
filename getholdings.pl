@@ -45,7 +45,7 @@ my $outputfile = 'out.txt';
 
 open (OUTFILE, '>:utf8',$outputfile);
 
-$url = $baseurl . $service . $mmsid; 
+$url = $baseurl . $service . $mmsid . '/holdings/'; 
 $response = $ua->get($url);
 print $url;
 print "\n$apikey";

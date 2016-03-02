@@ -1,8 +1,6 @@
 #!/usr/bin/perl
 
-# This program expects a textual file from MarcEdit. For efficiency
-# it is recommended to run the file through 'grep "^=001\|^=035.*\$a" filename'
-# before using this script
+# This program expects a textual file from MarcEdit. 
 #
 # It normalizes all OCLC numbes from 035 |a and outputs
 # a file containing all OCLC numbers associated with multiple
@@ -12,7 +10,6 @@ use strict;
 
 my $infile = '/media/sf_Desktop/test/junk.mrk';
 
-my @nzdata;
 my $entry = '';
 my $mmsid = '';
 my $oclc = '';
@@ -51,10 +48,6 @@ while ($entry = <NZDATA>) {
 								if ($oclc =~ /^(on|ocm|ocn|\(OCoLC)/) {
 									####### strip unnecessary subfields
 									$subfieldindex = index($oclc, '$');
-
-								
-									####### strip unnecessary subfields
-									$subfieldindex = index($oclc, '$');
 	
 									if ($subfieldindex > 0) {
 										$oclc = substr $oclc, 0, $subfieldindex;
@@ -62,23 +55,24 @@ while ($entry = <NZDATA>) {
 									
 									###### normalize OCLC number
 									$oclc =~ s/[^0-9]//g;
+									$oclc =~ s/^0*//g;
 	
 									###### load MMSID's into hash
-									if (exists $oclcnos{$oclc}) {
+									if (exists $oclcnos{$mmsid}) {
 										##### make sure it hasn't recorded a normalized
 										##### entry from the same record
-										$mmsidindex = index($oclcnos{$oclc}, $mmsid);
+										$mmsidindex = index($oclcnos{$mmsid}, $oclc);
 	
 										if ($mmsidindex == -1) {
-											$oclcnos{$oclc} .= ",$mmsid";
+											$oclcnos{$mmsid} .= ",$oclc";
 											}
-									} else {
-									$oclcnos{$oclc} = $mmsid;
-						}
-					}				
+										} else {
+												$oclcnos{$mmsid} = $oclc;
+										}
+									}
+								
 				}
 		}
-
 	close(NZDATA);
 
 	##### iterate through keys with more than one entry
@@ -89,6 +83,6 @@ while ($entry = <NZDATA>) {
 		$mmsidindex = index($value, ',');
 
 		if ($mmsidindex > -1) {
-			print "$key\t$value\n";
+						print "$key\t$value\n";
 		}
 	}
