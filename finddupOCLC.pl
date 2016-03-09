@@ -33,12 +33,9 @@ open(NZDATA, '<:encoding(UTF-8)', $infile) or die "Could not open file '$infile'
 while ($entry = <NZDATA>) {
 				chomp($entry);
 
-				if ("=LDR" eq substr $entry, 0, 4) {
-								$mmsid = '';
-								$oclc = '';
-					}
 				#### get MMSID
 				if ("=001" eq substr $entry, 0, 4) {
+								$oclc = '';
 								$mmsid = substr $entry, 6;
 								$mmsid =~ s/[^0-9]//g;
 				}
