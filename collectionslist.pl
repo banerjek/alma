@@ -33,7 +33,11 @@ my $response = '';
 my $url = '';
 my $oclc = '';
 my $baseurl = 'https://api-na.hosted.exlibrisgroup.com';
-my $service = '/almaws/v1/bibs/collections';
+# list collections under the mmsID
+#my $service = '/almaws/v1/bibs/collections?mmsId=8130579910001858&level=2';
+# list bibs below a collection
+my $service = '/almaws/v1/bibs/collections/8130576280001858/bibs';
+
 
 my $outputfile = 'out.txt';
 
