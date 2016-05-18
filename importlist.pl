@@ -12,7 +12,7 @@ use warnings;
 use LWP::UserAgent;
 
 ########################################################################
-# initialize a few variables. You'll need a developer's key from OCLC to
+# initialize a few variables. You'll need a developer's key from Ex Libris to
 # make this work
 ########################################################################
 open my $apikeyfile, '<', "apikey.txt";
