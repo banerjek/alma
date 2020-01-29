@@ -1,0 +1,35 @@
+# Set institution code
+INST="01ALLIANCE_OHSU"
+
+# Set input filename
+INFILE="OHSHoldings"
+
+# reads designated .txt file and stores each line sequentially in OCLC variable
+
+for OCLC in $(cat $INFILE)
+do
+	# strips everything except for numbers, (, )< O, C, L, o
+	OCLC=$(sed 's/[^()OCoL0-9]//g' <<< "$OCLC")
+
+	# build search string
+	searchstring="https://na01.alma.exlibrisgroup.com/view/sru/$INST?version=1.2&operation=searchRetrieve&query=alma.other_system_number_035_az=$OCLC"
+
+	# store result from search
+	RESULT=$(curl -s "$searchstring" | sed 's/ xmlns="[^"]*"//g' | sed -E 's/([0-9])>/\1/g' | sed -E 's/(&(amp|apos|gt|lt));*//g')
+
+	# capture number of records found
+	RECORDSFOUND=$(echo $RESULT | xmlstarlet sel -T -t -m '/searchRetrieveResponse/numberOfRecords' -v ".")
+
+	# capture library and carrier IF records were found and print output
+	if [ $RECORDSFOUND -eq '0' ] # Record not found, set Record ID and Library to "none"
+	then
+		echo "$OCLC	$RECORDSFOUND" | tee -a notfound.txt
+	elif [ $RECORDSFOUND -gt '0' ] 
+	then
+		echo "$OCLC was found"
+	else
+		echo "$OCLC	Error occured" | tee -a errors
+	fi
+
+done
+
