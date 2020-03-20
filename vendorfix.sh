@@ -42,7 +42,7 @@ function get_country_code  {
 	xmldoc=$(sed 's/BEGIN_COUNTRY[^<]*costa ri[^<]*<END_COUNTRY/BEGIN_COUNTRYCRI<END_COUNTRY/i' <<< "$xmldoc") # Costa Rica
 	xmldoc=$(sed 's/BEGIN_COUNTRYhr<END_COUNTRY/BEGIN_COUNTRYHRV<END_COUNTRY/i' <<< "$xmldoc") # Croatia
 	xmldoc=$(sed 's/BEGIN_COUNTRY[^<]*croatia[^<]*<END_COUNTRY/BEGIN_COUNTRYHRV<END_COUNTRY/i' <<< "$xmldoc") # Croatia
-	xmldoc=$(sed 's/BEGIN_COUNTRYcuba<END_COUNTRY/BEGIN_COUNTRYCUB<END_COUNTRY/i' <<< "$xmldoc") # Cuba
+	xmldoc=$(sed 's/BEGIN_COUNTRY[^<]*cuba<END_COUNTRY/BEGIN_COUNTRYCUB<END_COUNTRY/i' <<< "$xmldoc") # Cuba
 	xmldoc=$(sed 's/BEGIN_COUNTRY[^<]*cyprus[^<]*<END_COUNTRY/BEGIN_COUNTRYCYP<END_COUNTRY/i' <<< "$xmldoc") # Cyprus
 	xmldoc=$(sed 's/BEGIN_COUNTRYcz<END_COUNTRY/BEGIN_COUNTRYCZE<END_COUNTRY/i' <<< "$xmldoc") # Czech Republic
 	xmldoc=$(sed 's/BEGIN_COUNTRY[^<]*czech[^<]*<END_COUNTRY/BEGIN_COUNTRYCZE<END_COUNTRY/i' <<< "$xmldoc") # Czech Republic
@@ -92,13 +92,16 @@ function get_country_code  {
 	xmldoc=$(sed 's/BEGIN_COUNTRY[^<]*japan[^<]*<END_COUNTRY/BEGIN_COUNTRYITA<END_COUNTRY/i' <<< "$xmldoc") # Japan
 	xmldoc=$(sed 's/BEGIN_COUNTRY[^<]*korea[^<]*<END_COUNTRY/BEGIN_COUNTRYKOR<END_COUNTRY/i' <<< "$xmldoc") # Korea
 	xmldoc=$(sed 's/BEGIN_COUNTRY[^<]*kuwait[^<]*<END_COUNTRY/BEGIN_COUNTRYKWT<END_COUNTRY/i' <<< "$xmldoc") # Kuwait
-	xmldoc=$(sed 's/BEGIN_COUNTRYlv<END_COUNTRY/BEGIN_COUNTRYLVA<END_COUNTRY/i' <<< "$xmldoc") # Latvia
+	xmldoc=$(sed 's/BEGIN_COUNTRYllv<END_COUNTRY/BEGIN_COUNTRYLVA<END_COUNTRY/i' <<< "$xmldoc") # Latvia
 	xmldoc=$(sed 's/BEGIN_COUNTRY[^<]*latvia[^<]*<END_COUNTRY/BEGIN_COUNTRYLVA<END_COUNTRY/i' <<< "$xmldoc") # Latvia
 	xmldoc=$(sed 's/BEGIN_COUNTRYlb<END_COUNTRY/BEGIN_COUNTRYLBN<END_COUNTRY/i' <<< "$xmldoc") # Lebanon
 	xmldoc=$(sed 's/BEGIN_COUNTRY[^<]*lebanon[^<]*<END_COUNTRY/BEGIN_COUNTRYLBN<END_COUNTRY/i' <<< "$xmldoc") # Lebanon
 	xmldoc=$(sed 's/BEGIN_COUNTRY[^<]*lithuan[^<]*<END_COUNTRY/BEGIN_COUNTRYLTU<END_COUNTRY/i' <<< "$xmldoc") # Lithuania
 	xmldoc=$(sed 's/BEGIN_COUNTRY[^<]*luxemb[^<]*<END_COUNTRY/BEGIN_COUNTRYLUX<END_COUNTRY/i' <<< "$xmldoc") # Luxembourg
 	xmldoc=$(sed 's/BEGIN_COUNTRY[^<]*macedonia[^<]*<END_COUNTRY/BEGIN_COUNTRYMKD<END_COUNTRY/i' <<< "$xmldoc") # Macedonia
+	xmldoc=$(sed 's/BEGIN_COUNTRY[^<]*malas[^<]*<END_COUNTRY/BEGIN_COUNTRYMYS<END_COUNTRY/i' <<< "$xmldoc") # Malta
+	xmldoc=$(sed 's/BEGIN_COUNTRY[^<]*malay[^<]*<END_COUNTRY/BEGIN_COUNTRYMYS<END_COUNTRY/i' <<< "$xmldoc") # Malta
+
 	xmldoc=$(sed 's/BEGIN_COUNTRY[^<]*malta[^<]*<END_COUNTRY/BEGIN_COUNTRYMLT<END_COUNTRY/i' <<< "$xmldoc") # Malta
 	xmldoc=$(sed 's/BEGIN_COUNTRY[^<]*moroc[^<]*<END_COUNTRY/BEGIN_COUNTRYMAR<END_COUNTRY/i' <<< "$xmldoc") # Morocco
 	xmldoc=$(sed 's/BEGIN_COUNTRYmx<END_COUNTRY/BEGIN_COUNTRYMEX<END_COUNTRY/i' <<< "$xmldoc") # Mexico
@@ -142,8 +145,8 @@ function get_country_code  {
 	xmldoc=$(sed 's/BEGIN_COUNTRY[^<]*somalia[^<]*<END_COUNTRY/BEGIN_COUNTRYSOM<END_COUNTRY/i' <<< "$xmldoc") # Somalia
 	xmldoc=$(sed 's/BEGIN_COUNTRY[^<]*south afr[^<]*<END_COUNTRY/BEGIN_COUNTRYZAF<END_COUNTRY/i' <<< "$xmldoc") # South Africa
 	xmldoc=$(sed 's/BEGIN_COUNTRYes<END_COUNTRY/BEGIN_COUNTRYESP<END_COUNTRY/i' <<< "$xmldoc") # Spain
-	xmldoc=$(sed 's/BEGIN_COUNTRYespan[^<]*<END_COUNTRY/BEGIN_COUNTRYESP<END_COUNTRY/i' <<< "$xmldoc") # Spain
-	xmldoc=$(sed 's/BEGIN_COUNTRYspain[^<]*<END_COUNTRY/BEGIN_COUNTRYESP<END_COUNTRY/i' <<< "$xmldoc") # Spain
+	xmldoc=$(sed 's/BEGIN_COUNTRY[^<]*espan[^<]*<END_COUNTRY/BEGIN_COUNTRYESP<END_COUNTRY/i' <<< "$xmldoc") # Spain
+	xmldoc=$(sed 's/BEGIN_COUNTRY[^<]*spain[^<]*<END_COUNTRY/BEGIN_COUNTRYESP<END_COUNTRY/i' <<< "$xmldoc") # Spain
 	xmldoc=$(sed 's/BEGIN_COUNTRY[^<]*ceylon[^<]*<END_COUNTRY/BEGIN_COUNTRYLKA<END_COUNTRY/i' <<< "$xmldoc") # Sri Lanka
 	xmldoc=$(sed 's/BEGIN_COUNTRY[^<]*lanka[^<]*<END_COUNTRY/BEGIN_COUNTRYLKA<END_COUNTRY/i' <<< "$xmldoc") # Sri Lanka
 	xmldoc=$(sed 's/BEGIN_COUNTRY[^<]*syria[^<]*<END_COUNTRY/BEGIN_COUNTRYSYR<END_COUNTRY/i' <<< "$xmldoc") # Syria
@@ -158,15 +161,15 @@ function get_country_code  {
 	xmldoc=$(sed 's/BEGIN_COUNTRY[^<]*turkey[^<]*<END_COUNTRY/BEGIN_COUNTRYTUR<END_COUNTRY/i' <<< "$xmldoc") # Turkey
 	xmldoc=$(sed 's/BEGIN_COUNTRY[^<]*trinidad[^<]*<END_COUNTRY/BEGIN_COUNTRYTTO<END_COUNTRY/i' <<< "$xmldoc") # Trinibad and Tobago
 	xmldoc=$(sed 's/BEGIN_COUNTRYgb<END_COUNTRY/BEGIN_COUNTRYUK<END_COUNTRY/i' <<< "$xmldoc") # UK
-	xmldoc=$(sed 's/BEGIN_COUNTRYuni[^ ]* \?k[^<]*<END_COUNTRY/BEGIN_COUNTRYUK<END_COUNTRY/i' <<< "$xmldoc") # UK
-	xmldoc=$(sed 's/BEGIN_COUNTRYu[\. ]*k[\. ]*<END_COUNTRY/BEGIN_COUNTRYUK<END_COUNTRY/i' <<< "$xmldoc") # UK
+	xmldoc=$(sed 's/BEGIN_COUNTRY[^<]*uni[^ ]* \?k[^<]*<END_COUNTRY/BEGIN_COUNTRYUK<END_COUNTRY/i' <<< "$xmldoc") # UK
+	xmldoc=$(sed 's/BEGIN_COUNTRY[^<]*u[\. ]*k[\. ]*<END_COUNTRY/BEGIN_COUNTRYUK<END_COUNTRY/i' <<< "$xmldoc") # UK
 	xmldoc=$(sed 's/BEGIN_COUNTRY[^<]*britain[^<]*<END_COUNTRY/BEGIN_COUNTRYUK<END_COUNTRY/i' <<< "$xmldoc") # UK
 	xmldoc=$(sed 's/BEGIN_COUNTRY[^<]*scotland[^<]*<END_COUNTRY/BEGIN_COUNTRYUK<END_COUNTRY/i' <<< "$xmldoc") # UK
 	xmldoc=$(sed 's/BEGIN_COUNTRY[^<]*ukrai[^<]*<END_COUNTRY/BEGIN_COUNTRYUKR<END_COUNTRY/i' <<< "$xmldoc") # UKR
 	xmldoc=$(sed 's/BEGIN_COUNTRY[^<]*urugua[^<]*<END_COUNTRY/BEGIN_COUNTRYURY<END_COUNTRY/i' <<< "$xmldoc") # Uruguay
-	xmldoc=$(sed 's/BEGIN_COUNTRYu[\. ]*s[\. ]*a[\. ]*<END_COUNTRY/BEGIN_COUNTRYUSA<END_COUNTRY/i' <<< "$xmldoc") # USA
-	xmldoc=$(sed 's/BEGIN_COUNTRYusd\?<END_COUNTRY/BEGIN_COUNTRYUSA<END_COUNTRY/i' <<< "$xmldoc") # USA
-	xmldoc=$(sed 's/BEGIN_COUNTRYunited sta[^<]*<END_COUNTRY/BEGIN_COUNTRYUSA<END_COUNTRY/i' <<< "$xmldoc") # USA
+	xmldoc=$(sed 's/BEGIN_COUNTRY[^<]*u[\. ]*s[\. ]*a[\. ]*<END_COUNTRY/BEGIN_COUNTRYUSA<END_COUNTRY/i' <<< "$xmldoc") # USA
+	xmldoc=$(sed 's/BEGIN_COUNTRY[^<]*usd\?<END_COUNTRY/BEGIN_COUNTRYUSA<END_COUNTRY/i' <<< "$xmldoc") # USA
+	xmldoc=$(sed 's/BEGIN_COUNTRY[^<]*united sta[^<]*<END_COUNTRY/BEGIN_COUNTRYUSA<END_COUNTRY/i' <<< "$xmldoc") # USA
 	xmldoc=$(sed 's/BEGIN_COUNTRY[^<]*[0-9][0-9][0-9][0-9][^<]*<END_COUNTRY/BEGIN_COUNTRYUSA<END_COUNTRY/i' <<< "$xmldoc") # USA
 	xmldoc=$(sed 's/BEGIN_COUNTRY[^<]*reston[^<]*<END_COUNTRY/BEGIN_COUNTRYUSA<END_COUNTRY/i' <<< "$xmldoc") # USA
 	xmldoc=$(sed 's/BEGIN_COUNTRY/<country desc="">/g' <<< "$xmldoc")
