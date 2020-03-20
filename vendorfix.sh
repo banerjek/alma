@@ -182,6 +182,12 @@ function fill_empty_fields {
 
   }
 
+function delete_blank_addresses {
+	xmldoc=$(sed 's#<address preferred="false"><country desc=""></country><start_date>2019-12-11Z</start_date><address_types><address_type desc="Billing">billing</address_type><address_type desc="Shipping">shipping</address_type><address_type desc="Order">order</address_type><address_type desc="Claim">claim</address_type><address_type desc="Payment">payment</address_type><address_type desc="Returns">returns</address_type></address_types></address>##g' <<< "$xmldoc")
+	xmldoc=$(sed 's#<address preferred="false"><line1>Address line 1 is required</line1><country desc="Canada">CAN</country><start_date>[^<]*</start_date><address_types><address_type desc="Billing">billing</address_type><address_type desc="Shipping">shipping</address_type><address_type desc="Order">order</address_type><address_type desc="Claim">claim</address_type><address_type desc="Payment">payment</address_type><address_type desc="Returns">returns</address_type></address_types></address>##g' <<< "$xmldoc")
+
+  }
+
 cat vendors | while read vendor
 
 do
@@ -199,8 +205,8 @@ do
 	xmldoc=$(curl -s -H "Authorization: apikey $(cat apikey.txt)" -H "Accept: application/xml" -X GET $getstring)
 	echo $xmldoc |xmlstarlet fo > "$filevendor"
 
+	delete_blank_addresses
 	get_country_code
-
 	fill_empty_fields
 	
 	# Counts vendor owners -- only delete the 01UTORONTO entry if at least two vendor owners
