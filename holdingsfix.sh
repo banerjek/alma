@@ -12,7 +12,7 @@ do
 	xmldoc=$(curl -s -H "Authorization: apikey $(cat apikey.txt)" -H "Accept: application/xml" -X GET $getstring)
 	date008=$(date "+%y%m%d")
 	#edit only 852s that don't contain $h
-	xmldoc=$(echo $xmldoc | xmlstarlet ed -u '/holding/record/datafield[@tag="852"][not(subfield[@code="h"])]/@ind1' -v ' ')
+	xmldoc=$(echo $xmldoc | xmlstarlet ed -u '/holding/record/datafield[@tag="852"][not(subfield[@code="h"])]/@ind1' -v '5')
 
 	# fix 008
 	# a=yes, b=no, u=unknown
