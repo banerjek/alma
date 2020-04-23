@@ -25,16 +25,15 @@ do
 	# a=yes, b=no, u=unknown
 	#lending="a"
 	#copying="a"
-	#new008=${date008}'0u\\\\0\\\0001'${lending}${copying}'und0999999'
-	#xmldoc=$(echo $xmldoc | xmlstarlet ed -u '/holding/record/controlfield[@tag="008"]' -v ${new008})
+	new008=${date008}'0u\\\\0\\\0001'${lending}${copying}'und0999999'
+	xmldoc=$(echo $xmldoc | xmlstarlet ed -u '/holding/record/controlfield[@tag="008"]' -v ${new008})
 
-#	xmldoc=$(echo $xmldoc | xmlstarlet ed -d '/holding/record/datafield[@tag="852"][subfield[@code="x"][contains(text(), "PCOUNT")]]')
+	#remove spurious 852
+	xmldoc=$(echo $xmldoc | xmlstarlet ed -d '/holding/record/datafield[@tag="852"][subfield[@code="x"][contains(text(), "PCOUNT")]]')
 	#count852=$(echo $xmldoc | xmlstarlet sel -t -m '/holding/record' -c 'count(datafield[@tag="852"])')
 	#echo "$mms_id,$holding_id,$count852" >> count852
-	# fix material type and in_temp location if broken
 	# check to make sure it worked
 	updatedoc=$(curl -s -H "Authorization: apikey $(cat apikey.txt)" -H "Content-Type: application/xml" -X PUT --data "${xmldoc}" $getstring)
 	ind1=$(echo $updatedoc |xmlstarlet sel -t -m '/holding/record/datafield[@tag="852"][not(subfield[@code="h"])]/@ind1' -v '.')
-	echo 'Ind1 has been assigned "'$ind1'" to '$mms_id",$holding_id"
 	echo "$mms_id,$holding_id" >> completed
 done
