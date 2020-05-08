@@ -1,0 +1,30 @@
+RECORDS=$(cat oral.xml)
+
+##############################################################
+# pull out 245s, 843, 852, and 856
+###############################################################
+#
+# -t indicates template, -m indicates XPATH expression to match
+# -n indicates to print a newline
+# -o means to print whatever text follows it
+# -c means to count whatever follows 
+# -v is value of (as in "value-of-select" in XSLT"
+#
+# Extract control number so that bulletproof paths can be made for repeated fields later
+
+RECORD_IDS=$(echo $RECORDS | xmlstarlet sel -T -t -m '/collection/record/controlfield[@tag="001"]' -v '.' -n)
+
+id_array=($RECORD_IDS)
+
+for id in ${id_array[@]}; do
+	MATCH_EXP="/collection/record[controlfield[@tag='001']='${id}']"
+	echo $RECORDS |xmlstarlet sel -T  -t -m "${MATCH_EXP}" -n \
+	-v 'controlfield[@tag="001"]' -o '	' \
+	-v 'datafield[@tag="245"]/subfield[@code="a"]' -o '	' \
+	-m "${MATCH_EXP}/datafield[@tag='500']" -v 'subfield[@code="a"]' -o ';' \
+	-m "${MATCH_EXP}/datafield[@tag='505']" -v 'subfield[@code="a"]' -o ';' \
+	-m "${MATCH_EXP}/datafield[@tag='520']" -v 'subfield[@code="a"]' -o ';' \
+	-m "${MATCH_EXP}/datafield[@tag='545']" -v 'subfield[@code="a"]' -o ';' \
+	-m "${MATCH_EXP}/datafield[@tag='650']" -v 'subfield[@code="a"]' -i 'subfield[@code="x"]' -o '--' -v 'subfield[@code="x"]' -b -o ';' 
+
+done
