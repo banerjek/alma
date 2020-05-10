@@ -11,20 +11,19 @@ RECORDS=$(cat oral.xml)
 # -v is value of (as in "value-of-select" in XSLT"
 #
 # Extract control number so that bulletproof paths can be made for repeated fields later
+newline=$(echo -e "$\n")
+RECORD_IDS=$(echo $RECORDS |  tr -d '\n\r' | sed 's/^.*<collection>//' |sed 's/<\/collection>.*$//' | sed "s/record><record>/record>${newline}<record>/g")
+IFS="${newline}"
+record_array=($RECORD_IDS)
 
-RECORD_IDS=$(echo $RECORDS | xmlstarlet sel -T -t -m '/collection/record/controlfield[@tag="001"]' -v '.' -n)
-
-id_array=($RECORD_IDS)
-
-for id in ${id_array[@]}; do
-	MATCH_EXP="/collection/record[controlfield[@tag='001']='${id}']"
-	echo $RECORDS |xmlstarlet sel -T  -t -m "${MATCH_EXP}" -n \
+for RECORD in ${record_array[@]}; do
+	echo "<?xml version='1.0' encoding='UTF-8' ?>$RECORD" |xmlstarlet sel -T  -t -m "/record" -n \
 	-v 'controlfield[@tag="001"]' -o '	' \
 	-v 'datafield[@tag="245"]/subfield[@code="a"]' -o '	' \
-	-m "${MATCH_EXP}/datafield[@tag='500']" -v 'subfield[@code="a"]' -o ';' \
-	-m "${MATCH_EXP}/datafield[@tag='505']" -v 'subfield[@code="a"]' -o ';' \
-	-m "${MATCH_EXP}/datafield[@tag='520']" -v 'subfield[@code="a"]' -o ';' \
-	-m "${MATCH_EXP}/datafield[@tag='545']" -v 'subfield[@code="a"]' -o ';' \
-	-m "${MATCH_EXP}/datafield[@tag='650']" -v 'subfield[@code="a"]' -i 'subfield[@code="x"]' -o '--' -v 'subfield[@code="x"]' -b -o ';' 
+	-m "datafield[@tag='500']" -v 'subfield[@code="a"]' -o ';' \
+	-m "datafield[@tag='505']" -v 'subfield[@code="a"]' -o ';' \
+	-m "datafield[@tag='520']" -v 'subfield[@code="a"]' -o ';' \
+	-m "datafield[@tag='545']" -v 'subfield[@code="a"]' -o ';' \
+	-m "datafield[@tag='650']" -v 'subfield[@code="a"]' -i 'subfield[@code="x"]' -o '--' -v 'subfield[@code="x"]' -b -o ';' 
 
 done
