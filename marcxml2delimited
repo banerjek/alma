@@ -1,5 +1,12 @@
+
 RECORDS=$(cat oral.xml)
 
+#######################################################
+# ROOT_ELEMENT will be stripped
+# RECORD_ELEMENT is the next level up and
+# identifies where records are marked
+ROOT_ELEMENT="collection"
+RECORD_ELEMENT="record"
 ##############################################################
 # pull out 245s, 843, 852, and 856
 ###############################################################
@@ -12,7 +19,7 @@ RECORDS=$(cat oral.xml)
 #
 # Extract control number so that bulletproof paths can be made for repeated fields later
 newline=$(echo -e "$\n")
-RECORD_IDS=$(echo $RECORDS |  tr -d '\n\r' | sed 's/^.*<collection>//' |sed 's/<\/collection>.*$//' | sed "s/record><record>/record>${newline}<record>/g")
+RECORD_IDS=$(echo $RECORDS |  tr -d '\n\r' | sed 's/^.*<${ROOT_ELEMENT}>//' |sed 's/<\/${ROOT_ELEMENT}>.*$//' | sed "s/${RECORD_ELEMENT}><${RECORD_ELEMENT}>/${RECORD_ELEMENT}>${newline}<${RECORD_ELEMENT}>/g")
 IFS="${newline}"
 record_array=($RECORD_IDS)
 
