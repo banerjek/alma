@@ -174,18 +174,17 @@ echo "Open hours have been retrieved"
 # Get integration profiles 
 xmldoc=$(curl -s -X GET -L -H "Authorization: apikey $(cat apikey.txt)" "https://api-na.hosted.exlibrisgroup.com/almaws/v1/conf/integration-profiles")
 echo $xmldoc |xmlstarlet fo > alma_config/integration-profiles.xml 
-echo "integration profiles have been retrieved"
+echo "Integration profiles have been retrieved"
 
 # Get jobs
 xmldoc=$(curl -s -X GET -L -H "Authorization: apikey $(cat apikey.txt)" "https://api-na.hosted.exlibrisgroup.com/almaws/v1/conf/jobs")
 echo $xmldoc |xmlstarlet fo > alma_config/jobs.xml 
-echo "jobs have been retrieved"
+echo "Jobs have been retrieved"
 
 # Get printers 
 xmldoc=$(curl -s -X GET -L -H "Authorization: apikey $(cat apikey.txt)" "https://api-na.hosted.exlibrisgroup.com/almaws/v1/conf/printers")
 echo $xmldoc |xmlstarlet fo > alma_config/printers.xml 
-echo "printers have been retrieved"
-exit
+echo "Printers have been retrieved"
 
 # Get libraries
 xmldoc=$(curl -s -X GET -L -H "Authorization: apikey $(cat apikey.txt)" "https://api-na.hosted.exlibrisgroup.com/almaws/v1/conf/libraries")
@@ -218,27 +217,7 @@ for library in ${lib_array[@]}
 	
 		xmldoc=$(curl -s -X GET -L -H "Authorization: apikey $(cat apikey.txt)" "${url}")
 		echo $xmldoc |xmlstarlet fo > ${filename}
-
-		library_locations=$(echo ${xmldoc} |xmlstarlet sel -t -m locations/location -v code -o " ")
-		libloc_array=($library_locations)
-
-		for location_code in ${libloc_array[@]}
-			do
-				url="https://api-na.hosted.exlibrisgroup.com/almaws/v1/conf/libraries/${library}/locations/${location_code}"
-				filename="alma_config/libraries/${library}/${location}/${location_code}.xml"
-	
-				xmldoc=$(curl -s -X GET -L -H "Authorization: apikey $(cat apikey.txt)" "${url}")
-
-				echo $xmldoc |xmlstarlet fo > ${filename}
-
-				# get open hours
-				url="https://api-na.hosted.exlibrisgroup.com/almaws/v1/conf/libraries/${library}/locations/${location_code}"
-				filename="alma_config/libraries/${library}/${location}/${location_code}/open_hours.xml"
-				xmldoc=$(curl -s -X GET -L -H "Authorization: apikey $(cat apikey.txt)" "${url}")
-
-				echo $xmldoc |xmlstarlet fo > ${filename}
-				echo "retrieved info for location $location_code at $library "
-			done
+		echo "retrieved locations for $library"
 	done
 
 exit
