@@ -154,7 +154,27 @@ WorkbenchPaymentMethod)
 
 mkdir alma_config 2>/dev/null
 mkdir alma_config/code_tables 2>/dev/null
+mkdir alma_config/libraries 2>/dev/null
 
+# Get libraries
+xmldoc=$(curl -s -X GET -L -H "Authorization: apikey $(cat apikey.txt)" "https://api-na.hosted.exlibrisgroup.com/almaws/v1/conf/libraries")
+
+libraries=$(echo ${xmldoc} |xmlstarlet sel -t -m /libraries/library -v code -o " ")
+lib_array=($libraries)
+
+for library in ${lib_array[@]}
+	do
+		url="https://api-na.hosted.exlibrisgroup.com/almaws/v1/conf/libraries/${library}"
+		filename="alma_config/libraries/${library}.xml"
+	
+		xmldoc=$(curl -s -X GET -L -H "Authorization: apikey $(cat apikey.txt)" "${url}")
+
+		echo $xmldoc |xmlstarlet fo > ${filename}
+		echo "processed $library library"
+	done
+
+exit
+# Get code tables
 for table in ${code_tables[@]}
 	do
 		url="https://api-na.hosted.exlibrisgroup.com/almaws/v1/conf/code-tables/${table}"
@@ -162,6 +182,7 @@ for table in ${code_tables[@]}
 	
 		xmldoc=$(curl -s -X GET -L -H "Authorization: apikey $(cat apikey.txt)" "${url}")
 	
-		echo $xmldoc |xmlstarlet fo |tee ${filename}
+		echo $xmldoc |xmlstarlet fo > ${filename}
+		echo "processed table $table"
 	done
 
