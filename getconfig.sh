@@ -171,6 +171,22 @@ xmldoc=$(curl -s -X GET -L -H "Authorization: apikey $(cat apikey.txt)" "https:/
 echo $xmldoc |xmlstarlet fo > alma_config/open-hours.xml 
 echo "Open hours have been retrieved"
 
+# Get integration profiles 
+xmldoc=$(curl -s -X GET -L -H "Authorization: apikey $(cat apikey.txt)" "https://api-na.hosted.exlibrisgroup.com/almaws/v1/conf/integration-profiles")
+echo $xmldoc |xmlstarlet fo > alma_config/integration-profiles.xml 
+echo "integration profiles have been retrieved"
+
+# Get jobs
+xmldoc=$(curl -s -X GET -L -H "Authorization: apikey $(cat apikey.txt)" "https://api-na.hosted.exlibrisgroup.com/almaws/v1/conf/jobs")
+echo $xmldoc |xmlstarlet fo > alma_config/jobs.xml 
+echo "jobs have been retrieved"
+
+# Get printers 
+xmldoc=$(curl -s -X GET -L -H "Authorization: apikey $(cat apikey.txt)" "https://api-na.hosted.exlibrisgroup.com/almaws/v1/conf/printers")
+echo $xmldoc |xmlstarlet fo > alma_config/printers.xml 
+echo "printers have been retrieved"
+exit
+
 # Get libraries
 xmldoc=$(curl -s -X GET -L -H "Authorization: apikey $(cat apikey.txt)" "https://api-na.hosted.exlibrisgroup.com/almaws/v1/conf/libraries")
 
