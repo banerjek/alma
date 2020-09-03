@@ -156,6 +156,16 @@ mkdir alma_config 2>/dev/null
 mkdir alma_config/code_tables 2>/dev/null
 mkdir alma_config/libraries 2>/dev/null
 
+# Get general config 
+xmldoc=$(curl -s -X GET -L -H "Authorization: apikey $(cat apikey.txt)" "https://api-na.hosted.exlibrisgroup.com/almaws/v1/conf/general")
+echo $xmldoc |xmlstarlet fo > alma_config/general_config.xml 
+echo "General configuration retrieved"
+
+# Get departments
+xmldoc=$(curl -s -X GET -L -H "Authorization: apikey $(cat apikey.txt)" "https://api-na.hosted.exlibrisgroup.com/almaws/v1/conf/departments")
+echo $xmldoc |xmlstarlet fo > alma_config/departments.xml 
+echo "Departments have been retrieved"
+
 # Get libraries
 xmldoc=$(curl -s -X GET -L -H "Authorization: apikey $(cat apikey.txt)" "https://api-na.hosted.exlibrisgroup.com/almaws/v1/conf/libraries")
 
