@@ -170,7 +170,17 @@ for library in ${lib_array[@]}
 		xmldoc=$(curl -s -X GET -L -H "Authorization: apikey $(cat apikey.txt)" "${url}")
 
 		echo $xmldoc |xmlstarlet fo > ${filename}
-		echo "processed $library library"
+		echo "retrieved $library library record"
+		mkdir alma_config/libraries/${library} 2>/dev/null
+		mkdir alma_config/libraries/${library}/${locations} 2>/dev/null
+
+		url="https://api-na.hosted.exlibrisgroup.com/almaws/v1/conf/libraries/${library}/${locations}"
+		filename="alma_config/libraries/${library}/${locations}.xml"
+	
+		xmldoc=$(curl -s -X GET -L -H "Authorization: apikey $(cat apikey.txt)" "${url}")
+		echo $xmldoc |xmlstarlet fo > ${filename}
+		echo "retrieved locations for ${library}"
+		#Get locations
 	done
 
 exit
