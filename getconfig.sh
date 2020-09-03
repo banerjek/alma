@@ -166,6 +166,11 @@ xmldoc=$(curl -s -X GET -L -H "Authorization: apikey $(cat apikey.txt)" "https:/
 echo $xmldoc |xmlstarlet fo > alma_config/departments.xml 
 echo "Departments have been retrieved"
 
+# Get open hours 
+xmldoc=$(curl -s -X GET -L -H "Authorization: apikey $(cat apikey.txt)" "https://api-na.hosted.exlibrisgroup.com/almaws/v1/conf/open-hours")
+echo $xmldoc |xmlstarlet fo > alma_config/open-hours.xml 
+echo "Open hours have been retrieved"
+
 # Get libraries
 xmldoc=$(curl -s -X GET -L -H "Authorization: apikey $(cat apikey.txt)" "https://api-na.hosted.exlibrisgroup.com/almaws/v1/conf/libraries")
 
@@ -206,6 +211,13 @@ for library in ${lib_array[@]}
 				url="https://api-na.hosted.exlibrisgroup.com/almaws/v1/conf/libraries/${library}/locations/${location_code}"
 				filename="alma_config/libraries/${library}/${location}/${location_code}.xml"
 	
+				xmldoc=$(curl -s -X GET -L -H "Authorization: apikey $(cat apikey.txt)" "${url}")
+
+				echo $xmldoc |xmlstarlet fo > ${filename}
+
+				# get open hours
+				url="https://api-na.hosted.exlibrisgroup.com/almaws/v1/conf/libraries/${library}/locations/${location_code}"
+				filename="alma_config/libraries/${library}/${location}/${location_code}/open_hours.xml"
 				xmldoc=$(curl -s -X GET -L -H "Authorization: apikey $(cat apikey.txt)" "${url}")
 
 				echo $xmldoc |xmlstarlet fo > ${filename}
