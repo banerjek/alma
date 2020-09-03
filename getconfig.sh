@@ -201,26 +201,16 @@ for library in ${lib_array[@]}
 
 		echo $xmldoc |xmlstarlet fo > ${filename}
 		echo "retrieved $library library record"
-		mkdir alma_config/libraries/${library} 2>/dev/null
 
 		url="https://api-na.hosted.exlibrisgroup.com/almaws/v1/conf/libraries/${library}/locations"
-		filename="alma_config/libraries/${library}/locations.xml"
+		filename="alma_config/libraries/${library}-locations.xml"
 	
 		xmldoc=$(curl -s -X GET -L -H "Authorization: apikey $(cat apikey.txt)" "${url}")
 		echo $xmldoc |xmlstarlet fo > ${filename}
 		echo "retrieved locations for ${library}"
 
-		#Get locations
-
-		url="https://api-na.hosted.exlibrisgroup.com/almaws/v1/conf/libraries/${library}/locations/${location}"
-		filename="alma_config/libraries/${library}/${location}.xml"
-	
-		xmldoc=$(curl -s -X GET -L -H "Authorization: apikey $(cat apikey.txt)" "${url}")
-		echo $xmldoc |xmlstarlet fo > ${filename}
-		echo "retrieved locations for $library"
 	done
 
-exit
 # Get code tables
 for table in ${code_tables[@]}
 	do
