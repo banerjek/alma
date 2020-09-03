@@ -172,15 +172,35 @@ for library in ${lib_array[@]}
 		echo $xmldoc |xmlstarlet fo > ${filename}
 		echo "retrieved $library library record"
 		mkdir alma_config/libraries/${library} 2>/dev/null
-		mkdir alma_config/libraries/${library}/${locations} 2>/dev/null
 
-		url="https://api-na.hosted.exlibrisgroup.com/almaws/v1/conf/libraries/${library}/${locations}"
-		filename="alma_config/libraries/${library}/${locations}.xml"
+		url="https://api-na.hosted.exlibrisgroup.com/almaws/v1/conf/libraries/${library}/locations"
+		filename="alma_config/libraries/${library}/locations.xml"
 	
 		xmldoc=$(curl -s -X GET -L -H "Authorization: apikey $(cat apikey.txt)" "${url}")
 		echo $xmldoc |xmlstarlet fo > ${filename}
 		echo "retrieved locations for ${library}"
+
 		#Get locations
+
+		url="https://api-na.hosted.exlibrisgroup.com/almaws/v1/conf/libraries/${library}/locations/${location}"
+		filename="alma_config/libraries/${library}/${location}.xml"
+	
+		xmldoc=$(curl -s -X GET -L -H "Authorization: apikey $(cat apikey.txt)" "${url}")
+		echo $xmldoc |xmlstarlet fo > ${filename}
+
+		library_locations=$(echo ${xmldoc} |xmlstarlet sel -t -m locations/location -v code -o " ")
+		libloc_array=($library_locations)
+
+		for location_code in ${libloc_array[@]}
+			do
+				url="https://api-na.hosted.exlibrisgroup.com/almaws/v1/conf/libraries/${library}/locations/${location_code}"
+				filename="alma_config/libraries/${library}/${location}/${location_code}.xml"
+	
+				xmldoc=$(curl -s -X GET -L -H "Authorization: apikey $(cat apikey.txt)" "${url}")
+
+				echo $xmldoc |xmlstarlet fo > ${filename}
+				echo "retrieved info for location $location_code at $library "
+			done
 	done
 
 exit
