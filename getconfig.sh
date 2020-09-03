@@ -152,12 +152,13 @@ WebhookEvents \
 WebhooksActionType \
 WorkbenchPaymentMethod) 
 
-mkdir code_tables 2>/dev/null
+mkdir alma_config 2>/dev/null
+mkdir alma_config/code_tables 2>/dev/null
 
 for table in ${code_tables[@]}
 	do
 		url="https://api-na.hosted.exlibrisgroup.com/almaws/v1/conf/code-tables/${table}"
-		filename="code_tables/${table}"
+		filename="alma_config/code_tables/${table}.xml"
 	
 		xmldoc=$(curl -s -X GET -L -H "Authorization: apikey $(cat apikey.txt)" "${url}")
 	
