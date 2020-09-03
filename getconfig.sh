@@ -216,10 +216,14 @@ for table in ${code_tables[@]}
 	do
 		url="https://api-na.hosted.exlibrisgroup.com/almaws/v1/conf/code-tables/${table}"
 		filename="alma_config/code_tables/${table}.xml"
+		delimitedfile="alma_config/code_tables/${table}.txt"
 	
 		xmldoc=$(curl -s -X GET -L -H "Authorization: apikey $(cat apikey.txt)" "${url}")
 	
 		echo $xmldoc |xmlstarlet fo > ${filename}
+		# create tab delimited table
+		echo "code	default	description	enabled" > $delimitedfile
+		echo $xmldoc |xmlstarlet sel -t -m /code_table/rows/row -v "code" -o "	" -v "default" -o "	" -v "description" -o "	" -v "enabled" -n >> ${delimitedfile}
 		echo "processed table $table"
 	done
 
