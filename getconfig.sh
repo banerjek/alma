@@ -1,5 +1,18 @@
 #!/bin/bash
 
+# Retrieve global configuration parameters
+get_general_config () {
+	parameter=$1
+
+	url="https://api-na.hosted.exlibrisgroup.com/almaws/v1/conf/${parameter}"
+	filename="alma_config/${parameter}.xml" 
+
+	xmldoc=$(curl -s -X GET -L -H "Authorization: apikey $(cat apikey.txt)" "${url}")
+
+	echo $xmldoc |xmlstarlet fo > ${filename}
+	echo "Retrieved general $parameter configuration"
+}
+
 code_tables=(accessionPlacementsOptions \
 AcqItemSourceType \
 AcquisitionMethod \
@@ -156,35 +169,13 @@ mkdir alma_config 2>/dev/null
 mkdir alma_config/code_tables 2>/dev/null
 mkdir alma_config/libraries 2>/dev/null
 
-# Get general config 
-xmldoc=$(curl -s -X GET -L -H "Authorization: apikey $(cat apikey.txt)" "https://api-na.hosted.exlibrisgroup.com/almaws/v1/conf/general")
-echo $xmldoc |xmlstarlet fo > alma_config/general_config.xml 
-echo "General configuration retrieved"
-
-# Get departments
-xmldoc=$(curl -s -X GET -L -H "Authorization: apikey $(cat apikey.txt)" "https://api-na.hosted.exlibrisgroup.com/almaws/v1/conf/departments")
-echo $xmldoc |xmlstarlet fo > alma_config/departments.xml 
-echo "Departments have been retrieved"
-
-# Get open hours 
-xmldoc=$(curl -s -X GET -L -H "Authorization: apikey $(cat apikey.txt)" "https://api-na.hosted.exlibrisgroup.com/almaws/v1/conf/open-hours")
-echo $xmldoc |xmlstarlet fo > alma_config/open-hours.xml 
-echo "Open hours have been retrieved"
-
-# Get integration profiles 
-xmldoc=$(curl -s -X GET -L -H "Authorization: apikey $(cat apikey.txt)" "https://api-na.hosted.exlibrisgroup.com/almaws/v1/conf/integration-profiles")
-echo $xmldoc |xmlstarlet fo > alma_config/integration-profiles.xml 
-echo "Integration profiles have been retrieved"
-
-# Get jobs
-xmldoc=$(curl -s -X GET -L -H "Authorization: apikey $(cat apikey.txt)" "https://api-na.hosted.exlibrisgroup.com/almaws/v1/conf/jobs")
-echo $xmldoc |xmlstarlet fo > alma_config/jobs.xml 
-echo "Jobs have been retrieved"
-
-# Get printers 
-xmldoc=$(curl -s -X GET -L -H "Authorization: apikey $(cat apikey.txt)" "https://api-na.hosted.exlibrisgroup.com/almaws/v1/conf/printers")
-echo $xmldoc |xmlstarlet fo > alma_config/printers.xml 
-echo "Printers have been retrieved"
+get_general_config general
+get_general_config departments
+get_general_config open-hours
+get_general_config integration-profiles
+get_general_config jobs
+get_general_config printers
+get_general_config libraries
 
 # Get libraries
 xmldoc=$(curl -s -X GET -L -H "Authorization: apikey $(cat apikey.txt)" "https://api-na.hosted.exlibrisgroup.com/almaws/v1/conf/libraries")
